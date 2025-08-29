@@ -1,35 +1,43 @@
-<h2>Agendar Transferência</h2>
+<h2 style="margin: 0 0 12px 0">AGENDAR NOVA TRANFERÊNCIA</h2>
 
-<form [formGroup]="form" (ngSubmit)="salvar()">
-  <div>
-    <label>Conta Origem</label>
-    <input formControlName="contaOrigem" maxlength="10" />
-    <small *ngIf="form.get('contaOrigem')?.invalid && form.get('contaOrigem')?.touched">
-      Informe 10 dígitos.
-    </small>
-  </div>
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="salvar()" style="display: grid; gap: 12px; max-width: 420px">
+    <mat-form-field appearance="outline">
+      <mat-label>Conta origem</mat-label>
+      <input matInput formControlName="contaOrigem" maxlength="10" />
+      <mat-hint>10 dígitos</mat-hint>
+      <mat-error *ngIf="form.get('contaOrigem')?.hasError('required')">Obrigatório</mat-error>
+      <mat-error *ngIf="form.get('contaOrigem')?.hasError('pattern')">Formato inválido</mat-error>
+    </mat-form-field>
 
-  <div>
-    <label>Conta Destino</label>
-    <input formControlName="contaDestino" maxlength="10" />
-    <small *ngIf="form.get('contaDestino')?.invalid && form.get('contaDestino')?.touched">
-      Informe 10 dígitos.
-    </small>
-  </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Conta destino</mat-label>
+      <input matInput formControlName="contaDestino" maxlength="10" />
+      <mat-hint>10 dígitos</mat-hint>
+      <mat-error *ngIf="form.get('contaDestino')?.hasError('required')">Obrigatório</mat-error>
+      <mat-error *ngIf="form.get('contaDestino')?.hasError('pattern')">Formato inválido</mat-error>
+    </mat-form-field>
 
-  <div>
-    <label>Valor</label>
-    <input type="number" step="0.01" formControlName="valor" />
-  </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Valor</mat-label>
+      <input matInput type="number" step="0.01" formControlName="valor" />
+      <mat-error *ngIf="form.get('valor')?.hasError('required')">Obrigatório</mat-error>
+      <mat-error *ngIf="form.get('valor')?.hasError('min')">Mínimo 0,01</mat-error>
+    </mat-form-field>
 
-  <div>
-    <label>Data da Transferência</label>
-    <input type="date" formControlName="dataTransferencia" />
-  </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Data da transferência</mat-label>
+      <input matInput [matDatepicker]="dp" formControlName="dataTransferencia" />
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp></mat-datepicker>
+      <mat-error *ngIf="form.get('dataTransferencia')?.hasError('required')">Obrigatório</mat-error>
+    </mat-form-field>
 
-  <div *ngIf="erro" style="color: #c00; margin: 8px 0">{{ erro }}</div>
-
-  <button type="submit" [disabled]="loading">
-    {{ loading ? 'Salvando...' : 'Agendar' }}
-  </button>
-</form>
+    <div style="display: flex; gap: 12px">
+      <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+        {{ loading ? 'Salvando...' : 'Agendar' }}
+      </button>
+      <a mat-button routerLink="/transferencias">Cancelar</a>
+    </div>
+  </form>
+</mat-card>
