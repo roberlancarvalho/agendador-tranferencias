@@ -1,0 +1,35 @@
+<h2>Agendar Transferência</h2>
+
+<form [formGroup]="form" (ngSubmit)="salvar()">
+  <div>
+    <label>Conta Origem</label>
+    <input formControlName="contaOrigem" maxlength="10" />
+    <small *ngIf="form.get('contaOrigem')?.invalid && form.get('contaOrigem')?.touched">
+      Informe 10 dígitos.
+    </small>
+  </div>
+
+  <div>
+    <label>Conta Destino</label>
+    <input formControlName="contaDestino" maxlength="10" />
+    <small *ngIf="form.get('contaDestino')?.invalid && form.get('contaDestino')?.touched">
+      Informe 10 dígitos.
+    </small>
+  </div>
+
+  <div>
+    <label>Valor</label>
+    <input type="number" step="0.01" formControlName="valor" />
+  </div>
+
+  <div>
+    <label>Data da Transferência</label>
+    <input type="date" formControlName="dataTransferencia" />
+  </div>
+
+  <div *ngIf="erro" style="color: #c00; margin: 8px 0">{{ erro }}</div>
+
+  <button type="submit" [disabled]="loading">
+    {{ loading ? 'Salvando...' : 'Agendar' }}
+  </button>
+</form>

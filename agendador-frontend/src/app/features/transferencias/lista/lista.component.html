@@ -1,0 +1,33 @@
+<h2>Transferências</h2>
+
+<a routerLink="/transferencias/nova">+ Nova transferência</a>
+
+<div *ngIf="carregando">Carregando...</div>
+<div *ngIf="erro" style="color: #c00">{{ erro }}</div>
+
+<table *ngIf="!carregando && !erro && itens.length">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Origem</th>
+      <th>Destino</th>
+      <th>Valor</th>
+      <th>Taxa</th>
+      <th>Agendada</th>
+      <th>Transferência</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of itens">
+      <td>{{ t.id }}</td>
+      <td>{{ t.contaOrigem }}</td>
+      <td>{{ t.contaDestino }}</td>
+      <td>{{ t.valor | number : '1.2-2' }}</td>
+      <td>{{ t.taxa | number : '1.2-2' }}</td>
+      <td>{{ t.dataAgendamento | date : 'yyyy-MM-dd' }}</td>
+      <td>{{ t.dataTransferencia | date : 'yyyy-MM-dd' }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="!carregando && !erro && !itens.length">Nenhum registro.</p>
