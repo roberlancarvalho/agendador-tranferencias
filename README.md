@@ -69,7 +69,7 @@ src/main/java/org/roberlan
 
 ## Testes
 
-Service: testes unitários do cálculo de taxas (faixas e bordas)
+Service: testes unitários do cálculo de taxas
 
 Como rodar: mvn test
 
