@@ -3,6 +3,7 @@ package org.roberlan.web;
 import org.roberlan.domain.TransferenciaDTO;
 import org.roberlan.domain.Transferencia;
 import org.roberlan.service.TransferenciaService;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,10 @@ public class TransferenciaController {
     }
 
     @GetMapping
-    public List<Transferencia> listar() {
-        return service.listar();
+    public ResponseEntity<List<Transferencia>> listar() {
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.noStore())
+                .body(service.listar());
     }
 
     @DeleteMapping("/{id}")
