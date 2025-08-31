@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -97,10 +97,7 @@ export class FormComponent implements OnInit {
 
     const d = this.form.value.dataTransferencia;
     if (d instanceof Date) {
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth() + 1).padStart(2, '0');
-      const dd = String(d.getDate()).padStart(2, '0');
-      dto.dataTransferencia = `${yyyy}-${mm}-${dd}`;
+      dto.dataTransferencia = formatDate(d, 'yyyy-MM-dd', 'pt-BR');
     }
 
     this.service.criar(dto).subscribe({
