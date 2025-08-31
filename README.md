@@ -46,7 +46,7 @@ application-postgres.yml (PostgreSQL)
 Pré-requisitos: Node 18+, Angular CLI
 
 ```
-cd frontend/        # ajuste se o front estiver noutra pasta
+cd frontend/ 
 npm install
 ng serve -o
 ```
