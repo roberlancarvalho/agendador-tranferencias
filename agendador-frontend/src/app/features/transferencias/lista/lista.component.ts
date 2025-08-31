@@ -11,11 +11,28 @@ import { TransferenciaService } from '../../../core/transferencia.service';
 @Component({
   selector: 'app-lista-transferencias',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatTableModule, MatProgressSpinnerModule, MatButtonModule, MatIconModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './lista.component.html',
 })
 export class ListaComponent implements OnInit {
-  displayedColumns = ['id', 'contaOrigem', 'contaDestino', 'valor', 'taxa', 'dataAgendamento', 'dataTransferencia'];
+  displayedColumns = [
+    'id',
+    'contaOrigem',
+    'contaDestino',
+    'valor',
+    'taxa',
+    'dataAgendamento',
+    'dataTransferencia',
+    'acoes',
+  ];
+
   dataSource: Transferencia[] = [];
   carregando = true;
   erro: string | null = null;
@@ -24,8 +41,26 @@ export class ListaComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.listar().subscribe({
-      next: data => { this.dataSource = data; this.carregando = false; },
-      error: e => { this.erro = e.message; this.carregando = false; }
+      next: (data) => {
+        this.dataSource = data;
+        this.carregando = false;
+      },
+      error: (e) => {
+        this.erro = e.message ?? 'Falha ao carregar';
+        this.carregando = false;
+      },
     });
+  }
+
+  deletar(id: number) {
+    if (!confirm('Confirmar exclusão?')) return;
+    this.service.deletar(id).subscribe({
+      next: () => (this.dataSource = this.dataSource.filter((t) => t.id !== id)),
+      error: (e) => (this.erro = `Erro ao deletar: ${e.message}`),
+    });
+  }
+
+  trackById(_: number, item: Transferencia) {
+    return item.id;
   }
 }

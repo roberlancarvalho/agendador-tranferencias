@@ -30,4 +30,11 @@ public class TransferenciaController {
     public List<Transferencia> listar() {
         return service.listar();
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Long id) {
+        service.deletar(id);
+    }
+
 }
