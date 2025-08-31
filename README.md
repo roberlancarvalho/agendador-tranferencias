@@ -20,10 +20,10 @@ API e Front-end para agendamento de transferências bancárias com cálculo de t
 Pré-requisitos: JDK 11, Maven
 
 ```bash
-# H2 (sem instalar nada) – recomendado para avaliação
+# H2
 mvn spring-boot:run -Dspring-boot.run.profiles=h2
 
-# Postgres local
+# Postgres
 mvn spring-boot:run -Dspring-boot.run.profiles=postgres
 ```
 
