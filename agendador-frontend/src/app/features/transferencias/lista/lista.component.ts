@@ -7,6 +7,7 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { Transferencia } from '../../../core/models/transferencia';
 import { TransferenciaService } from '../../../core/transferencia.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-lista-transferencias',
@@ -37,7 +38,7 @@ export class ListaComponent implements OnInit {
   carregando = true;
   erro: string | null = null;
 
-  constructor(private service: TransferenciaService) {}
+  constructor(private service: TransferenciaService, private snack: MatSnackBar) {}
 
   ngOnInit(): void {
     this.service.listar().subscribe({
@@ -54,9 +55,14 @@ export class ListaComponent implements OnInit {
 
   deletar(id: number) {
     if (!confirm('Confirmar exclusão?')) return;
+    const antes = this.dataSource;
+    this.dataSource = this.dataSource.filter((t) => t.id !== id);
     this.service.deletar(id).subscribe({
-      next: () => (this.dataSource = this.dataSource.filter((t) => t.id !== id)),
-      error: (e) => (this.erro = `Erro ao deletar: ${e.message}`),
+      next: () => this.snack.open('Excluído com sucesso.', 'OK', { duration: 2500 }),
+      error: (e) => {
+        this.dataSource = antes;
+        this.snack.open(`Erro ao excluir: ${e.message}`, 'OK', { duration: 4000 });
+      },
     });
   }
 
