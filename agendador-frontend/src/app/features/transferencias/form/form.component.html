@@ -4,7 +4,7 @@
   <form [formGroup]="form" (ngSubmit)="salvar()" style="display: grid; gap: 12px; max-width: 420px">
     <mat-form-field appearance="outline">
       <mat-label>Conta origem</mat-label>
-      <input matInput formControlName="contaOrigem" maxlength="10" />
+      <input matInput formControlName="contaOrigem" maxlength="10" inputmode="numeric" pattern="[0-9]*" />
       <mat-hint>10 dígitos</mat-hint>
       <mat-error *ngIf="form.get('contaOrigem')?.hasError('required')">Obrigatório</mat-error>
       <mat-error *ngIf="form.get('contaOrigem')?.hasError('pattern')">Formato inválido</mat-error>
@@ -12,7 +12,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Conta destino</mat-label>
-      <input matInput formControlName="contaDestino" maxlength="10" />
+      <input matInput formControlName="contaDestino" maxlength="10" inputmode="numeric" pattern="[0-9]*" />
       <mat-hint>10 dígitos</mat-hint>
       <mat-error *ngIf="form.get('contaDestino')?.hasError('required')">Obrigatório</mat-error>
       <mat-error *ngIf="form.get('contaDestino')?.hasError('pattern')">Formato inválido</mat-error>
