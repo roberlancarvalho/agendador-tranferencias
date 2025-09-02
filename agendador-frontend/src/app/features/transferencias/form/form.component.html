@@ -4,7 +4,7 @@
   <form [formGroup]="form" (ngSubmit)="salvar()" style="display: grid; gap: 12px; max-width: 420px">
     <mat-form-field appearance="outline">
       <mat-label>Conta origem</mat-label>
-      <input matInput formControlName="contaOrigem" maxlength="10" />
+      <input matInput formControlName="contaOrigem" maxlength="10" inputmode="numeric" pattern="[0-9]*" />
       <mat-hint>10 dígitos</mat-hint>
       <mat-error *ngIf="form.get('contaOrigem')?.hasError('required')">Obrigatório</mat-error>
       <mat-error *ngIf="form.get('contaOrigem')?.hasError('pattern')">Formato inválido</mat-error>
@@ -12,11 +12,15 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Conta destino</mat-label>
-      <input matInput formControlName="contaDestino" maxlength="10" />
+      <input matInput formControlName="contaDestino" maxlength="10" inputmode="numeric" pattern="[0-9]*" />
       <mat-hint>10 dígitos</mat-hint>
       <mat-error *ngIf="form.get('contaDestino')?.hasError('required')">Obrigatório</mat-error>
       <mat-error *ngIf="form.get('contaDestino')?.hasError('pattern')">Formato inválido</mat-error>
     </mat-form-field>
+
+    <mat-error *ngIf="form.hasError('sameAccounts')">
+      Conta de origem e destino não podem ser iguais.
+    </mat-error>
 
     <mat-form-field appearance="outline">
       <mat-label>Valor</mat-label>
@@ -30,13 +34,23 @@
       <input matInput [matDatepicker]="dp" formControlName="dataTransferencia" />
       <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
       <mat-datepicker #dp></mat-datepicker>
-      <mat-error *ngIf="form.get('dataTransferencia')?.hasError('required')">Obrigatório</mat-error>
+
+      <mat-error *ngIf="form.get('dataTransferencia')?.hasError('required')">
+        Obrigatório
+      </mat-error>
+      <mat-error *ngIf="form.get('dataTransferencia')?.hasError('pastDate')">
+        A data não pode ser no passado.
+      </mat-error>
+      <mat-error *ngIf="form.get('dataTransferencia')?.hasError('tooFar')">
+        A data não pode ultrapassar 50 dias a partir de hoje.
+      </mat-error>
     </mat-form-field>
 
     <div style="display: flex; gap: 12px">
-      <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+      <button mat-raised-button color="primary" type="submit" [disabled]="loading || form.invalid">
         {{ loading ? 'Salvando...' : 'Agendar' }}
       </button>
+
       <a mat-button routerLink="/transferencias">Cancelar</a>
     </div>
   </form>
